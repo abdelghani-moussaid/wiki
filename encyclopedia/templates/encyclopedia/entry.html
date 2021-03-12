@@ -1,0 +1,15 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia - {{ title }}
+{% endblock %}
+
+{% block body %}
+
+    {% if not entry %}
+        Wikipedia does not have an article with this exact name.
+    {% else %}
+        {{ entry }}
+    {% endif %} 
+
+{% endblock %}
