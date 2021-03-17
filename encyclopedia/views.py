@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 
 from . import util
 
@@ -9,9 +10,16 @@ def index(request):
     })
 
 def entry(request, title):
-    if request.method == "POST":
-        title = request.POST['q']
     return render(request, "encyclopedia/entry.html", {
         "title": title,
         "entry": util.get_entry(title)
     })
+
+def search(request):
+    if request.method == "GET":
+        title = request.GET.get('q')
+        return render(request, "encyclopedia/entry.html", {
+        "title": title,
+        "entry": util.get_entry(title)
+        })
+    
