@@ -1,3 +1,4 @@
+import random
 from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -74,6 +75,13 @@ def edit(request, title):
             return HttpResponseRedirect(reverse("encyclopedia:entry", args=[None]))
     else:
         return render(request, "encyclopedia/edit.html", {
+        "title": title,
+        "entry": util.get_entry(title)
+        })
+
+def random_entry(request):
+    title = random.choice(util.list_entries())
+    return render(request, "encyclopedia/entry.html", {
         "title": title,
         "entry": util.get_entry(title)
         })

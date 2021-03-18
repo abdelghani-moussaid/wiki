@@ -60,3 +60,4 @@ def edit_entry(title, content):
         default_storage.delete(filename)
         default_storage.save(filename, ContentFile(content))
         return True
+
