@@ -9,7 +9,8 @@
     {% if not entry %}
         Wikipedia does not have an article with this exact name. For more details visit our home page.
     {% else %}
+        <a href="{% url 'encyclopedia:edit' title %}">Edit Content</a><br>
         {{ entry }}
-    {% endif %} 
+    {% endif %}
 
 {% endblock %}

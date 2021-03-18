@@ -8,7 +8,8 @@ from . import util
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="New Title")
-    content = forms.CharField(label="Adding Content")
+    content = forms.CharField(label="Adding Content", widget=forms.Textarea)
+
 
 entries = util.list_entries()
 
@@ -61,4 +62,18 @@ def create(request):
     return render(request, "encyclopedia/create.html", {
             "form": NewEntryForm()
     }) 
-    
+
+
+def edit(request, title):
+    if request.method =="POST":
+        newContent = request.POST['content']
+        newEntry = util.edit_entry(title, newContent)
+        if newEntry:
+            return HttpResponseRedirect(reverse("encyclopedia:entry", args=[title]))
+        else:
+            return HttpResponseRedirect(reverse("encyclopedia:entry", args=[None]))
+    else:
+        return render(request, "encyclopedia/edit.html", {
+        "title": title,
+        "entry": util.get_entry(title)
+        })
