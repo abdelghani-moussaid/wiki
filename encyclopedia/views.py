@@ -21,14 +21,21 @@ def index(request):
 
 def entry(request, title):
 
-    entry = util.get_entry(title)
-    #html = markdown.markdown(entry)
-    md = markdown.Markdown()
-    html = md.convert(entry)
-    return render(request, "encyclopedia/entry.html", {
-        "title": title,
-        "entry": html
-    })
+    result = util.get_entry(title)
+    if result:
+        entry = util.get_entry(title)
+        #html = markdown.markdown(entry)
+        md = markdown.Markdown()
+        html = md.convert(entry)
+        return render(request, "encyclopedia/entry.html", {
+            "title": title,
+            "entry": html
+        })
+    else:
+        return render(request, "encyclopedia/entry.html", {
+            "title": None
+        })
+        
 
 def search(request):
     newEntriesList = []
