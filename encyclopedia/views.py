@@ -3,13 +3,11 @@ from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
-import markdown
 from . import util
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="New Title")
     content = forms.CharField(label="Adding Content", widget=forms.Textarea)
-
 
 entries = util.list_entries()
 
@@ -21,6 +19,7 @@ def index(request):
 
 def entry(request, title):
 
+<<<<<<< HEAD
     result = util.get_entry(title)
     if result:
         entry = util.get_entry(title)
@@ -36,6 +35,14 @@ def entry(request, title):
             "title": None
         })
         
+=======
+    entry = util.convert_markdow(title)
+    
+    return render(request, "encyclopedia/entry.html", {
+        "title": title,
+        "entry": entry
+    })
+>>>>>>> dc5af54cab9997caccb876a2b70ad0ed6c2afa02
 
 def search(request):
     newEntriesList = []

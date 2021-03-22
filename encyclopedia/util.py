@@ -1,5 +1,5 @@
 import re
-
+import markdown
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
 
@@ -61,3 +61,8 @@ def edit_entry(title, content):
         default_storage.save(filename, ContentFile(content))
         return True
 
+def convert_markdow(title):
+    entry = get_entry(title)
+    md = markdown.Markdown()
+    html = md.convert(entry)
+    return html
