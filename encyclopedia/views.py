@@ -3,11 +3,13 @@ from django import forms
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
+import markdown
 from . import util
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="New Title")
     content = forms.CharField(label="Adding Content", widget=forms.Textarea)
+
 
 entries = util.list_entries()
 
@@ -19,7 +21,6 @@ def index(request):
 
 def entry(request, title):
 
-<<<<<<< HEAD
     result = util.get_entry(title)
     if result:
         entry = util.get_entry(title)
@@ -35,31 +36,24 @@ def entry(request, title):
             "title": None
         })
         
-=======
-    entry = util.convert_markdow(title)
-    
-    return render(request, "encyclopedia/entry.html", {
-        "title": title,
-        "entry": entry
-    })
->>>>>>> dc5af54cab9997caccb876a2b70ad0ed6c2afa02
 
 def search(request):
     newEntriesList = []
     if request.method == "GET":
         title = request.GET.get('q')
-        if title in entries :
-            return render(request, "encyclopedia/entry.html", {
-            "title": title,
-            "entry": util.get_entry(title)
+        for newEntry in entries :
+            if newEntry == util.get_entry(title):
+                return render(request, "encyclopedia/entry.html", {
+                "title": title,
+                "entry": util.get_entry(title)
             })
-        else:
-            for searchItem in entries:
-                if title in searchItem:
-                    newEntriesList.append(searchItem),
-            return render(request, "encyclopedia/index.html", {
-                "entries": newEntriesList
-            })
+
+        for searchItem in entries:
+            if title in searchItem:
+                newEntriesList.append(searchItem),
+    return render(request, "encyclopedia/index.html", {
+        "entries": newEntriesList
+    })
 
 def create(request):
     if request.method == "POST":
@@ -69,14 +63,15 @@ def create(request):
             content = form.cleaned_data["content"]
             newEntry = util.save_entry(title, content)
             if newEntry:
-                entries.append(newEntry)
-                return HttpResponseRedirect(reverse("encyclopedia:entry", args=[title]))
+                try:
+                    entries.append(newEntry)
+                    return HttpResponseRedirect(reverse("encyclopedia:entry", args=[title]))
+                finally:
+                    return HttpResponseRedirect(reverse("encyclopedia:entry", args=[None]))
             else:
-                return HttpResponseRedirect(reverse("encyclopedia:entry", args=[None]))
-        else:
-            return render(request, "encyclopedia/create.html", {
-                "form": form
-            })
+                return render(request, "encyclopedia/entry.html", {
+                    "entry": None
+                })
 
     return render(request, "encyclopedia/create.html", {
             "form": NewEntryForm()
@@ -103,3 +98,4 @@ def random_entry(request):
         "title": title,
         "entry": util.get_entry(title)
         })
+

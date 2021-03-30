@@ -26,7 +26,6 @@ def save_entry(title, content):
     return True
 
 
-
 def get_entry(title):
     """
     Retrieves an encyclopedia entry by its title. If no such
