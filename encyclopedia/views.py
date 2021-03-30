@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from . import util
+import markdown
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="New Title")
