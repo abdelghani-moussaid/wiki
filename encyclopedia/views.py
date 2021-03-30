@@ -69,18 +69,19 @@ def create(request):
             content = form.cleaned_data["content"]
             newEntry = util.save_entry(title, content)
             if newEntry:
-                entries.append(newEntry)
-                return HttpResponseRedirect(reverse("encyclopedia:entry", args=[title]))
+                try:
+                    entries.append(newEntry)
+                    return HttpResponseRedirect(reverse("encyclopedia:entry", args=[title]))
+                finally:
+                    return HttpResponseRedirect(reverse("encyclopedia:entry", args=[None]))
             else:
-                return HttpResponseRedirect(reverse("encyclopedia:entry", args=[None]))
-        else:
-            return render(request, "encyclopedia/create.html", {
-                "form": form
-            })
+                return render(request, "encyclopedia/entry.html", {
+                    "entry": None
+                })
 
     return render(request, "encyclopedia/create.html", {
             "form": NewEntryForm()
-    }) 
+    })  
 
 
 def edit(request, title):
