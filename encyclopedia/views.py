@@ -57,9 +57,9 @@ def search(request):
                 if title in searchItem:
                     newEntriesList.append(searchItem),
                     found = True
-                    return render(request, "encyclopedia/index.html", {
-                        "entries": newEntriesList
-                    })
+            return render(request, "encyclopedia/index.html", {
+                "entries": newEntriesList
+            })
             if not found:
                 return render(request, "encyclopedia/entry.html", {
                     "entry": None
