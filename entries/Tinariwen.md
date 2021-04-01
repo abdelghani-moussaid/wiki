@@ -1,8 +1,0 @@
-
-
-###
-###Tinariwen
-
-
-
-Tinariwen is a group of Tuareg musicians from the Sahara Desert region of northern Mali. The band was formed in 1979 in Tamanrasset, Algeria, but returned to Mali after a peace accord between 1990 and 1995.
