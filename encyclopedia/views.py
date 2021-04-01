@@ -48,10 +48,7 @@ def search(request):
     if request.method == "GET":
         title = request.GET.get('q')
         if title in entries :
-            return render(request, "encyclopedia/entry.html", {
-            "title": title,
-            "entry": util.get_entry(title)
-            })
+            return entry(request, title)
         else:
             for searchItem in entries:
                 if title in searchItem:
