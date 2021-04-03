@@ -1,0 +1,1 @@
+**Pydroid** 3 is the most easy to use and powerful educational Python 3 IDE for Android. Features: - Offline Python 3.8 interpreter: no Internet is required to run ..

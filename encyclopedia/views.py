@@ -43,7 +43,6 @@ def entry(request, title):
 
 def search(request):
     newEntriesList = []
-    found = False
     if request.method == "GET":
         title = request.GET.get('q')
         if title in entries :
@@ -55,14 +54,9 @@ def search(request):
             for searchItem in entries:
                 if title in searchItem:
                     newEntriesList.append(searchItem),
-                    found = True
-                    return render(request, "encyclopedia/index.html", {
-                        "entries": newEntriesList
-                    })
-            if not found:
-                return render(request, "encyclopedia/entry.html", {
-                    "entry": None
-                })
+            return render(request, "encyclopedia/index.html", {
+                "entries": newEntriesList
+            })
             
 
 def create(request):
