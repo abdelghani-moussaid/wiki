@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
 from . import util
+import markdown
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="New Title")
@@ -46,10 +47,7 @@ def search(request):
     if request.method == "GET":
         title = request.GET.get('q')
         if title in entries :
-            return render(request, "encyclopedia/entry.html", {
-            "title": title,
-            "entry": util.get_entry(title)
-            })
+            return entry(request, title)
         else:
             for searchItem in entries:
                 if title in searchItem:
@@ -67,11 +65,8 @@ def create(request):
             content = form.cleaned_data["content"]
             newEntry = util.save_entry(title, content)
             if newEntry:
-                try:
-                    entries.append(newEntry)
-                    return HttpResponseRedirect(reverse("encyclopedia:entry", args=[title]))
-                finally:
-                    return HttpResponseRedirect(reverse("encyclopedia:entry", args=[None]))
+                entries.append(newEntry)
+                return HttpResponseRedirect(reverse("encyclopedia:entry", args=[title]))
             else:
                 return render(request, "encyclopedia/entry.html", {
                     "entry": None
@@ -98,7 +93,4 @@ def edit(request, title):
 
 def random_entry(request):
     title = random.choice(util.list_entries())
-    return render(request, "encyclopedia/entry.html", {
-        "title": title,
-        "entry": util.get_entry(title)
-        })
+    return entry(request, title)
